@@ -14,85 +14,13 @@ import { RECIPES } from "../shared/recipe";
 import Header from "./Header";
 import * as Font from "expo-font";
 
-function RenderItem({ item, onPress }) {
-  return item.map((items) => {
-    return (
-      <View
-        style={{
-          borderRadius: 8,
-          margin: 10,
-          padding: 5,
-          backgroundColor: "#fff",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Card key={items.id}>
-          <View
-            style={{
-              position: "relative",
-              borderRadius: 8,
-              overflow: "hidden",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Image
-              style={{
-                minWidth: "100%",
-                height: 200,
-                borderBottomRadius: 5,
-              }}
-              source={{ uri: items.image }}
-              //source={require(`${items.url}`)}
-            />
-            <View style={styles.overlay}></View>
-            <Text
-              onPress={onPress}
-              style={{
-                position: "absolute",
-                top: "40%",
-                color: "#000",
-                overlay: "#fff",
-                fontFamily: "RobotoMono-Bold",
-                opacity: 0.8,
-                fontSize: 28,
-              }}
-            >
-              {items.name}
-            </Text>
-          </View>
-          <TouchableOpacity
-            style={{
-              alignItems: "center",
-              backgroundColor: "#DDDDDD",
-              padding: 10,
-            }}
-            onPress={onPress}
-          >
-            <Text>Press Here</Text>
-          </TouchableOpacity>
-          {/*<Text
-            //   style={{
-            //     margn: 10,
-            //     fontSize: 16,
-            //     fontFamily: "RobotoMono-Italic",
-            //   }}
-            // >
-            //   {items.description}
-            // </Text>*/}
-        </Card>
-      </View>
-    );
-  });
-}
-
 class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
       recipes: RECIPES,
       fontsLoaded: false,
+      selectedRecipe: null,
     };
   }
   static navigationOptions = {
@@ -118,14 +46,94 @@ class Home extends Component {
     this.loadFonts();
   }
 
+  onRecipeSelect(recipeId) {
+    this.setState({ selectedRecipe: recipeId });
+  }
+
   render() {
     const { navigate } = this.props.navigation;
+
+    // const recipeId = this.props.navigation.getParam("recipeId");
+
+    const renderRecipeItem = ({ item }) => {
+      return (
+        <View
+          style={{
+            borderRadius: 8,
+            margin: 10,
+            padding: 5,
+            backgroundColor: "#fff",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Card key={item.id}>
+            <View
+              style={{
+                position: "relative",
+                borderTopStartRadius: 8,
+                borderTopEndRadius: 8,
+                overflow: "hidden",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Image
+                style={{
+                  minWidth: "100%",
+                  height: 200,
+                }}
+                source={{ uri: item.image }}
+              />
+              <View style={styles.overlay}></View>
+              <Text
+                style={{
+                  position: "absolute",
+                  top: "40%",
+                  color: "rgb(255,250,160)",
+
+                  fontFamily: "RobotoMono-Bold",
+
+                  fontSize: 28,
+                }}
+                onPress={() => navigate("FoodInfo", { recipeId: item.id })}
+              >
+                {item.name}
+              </Text>
+            </View>
+            <TouchableOpacity
+              style={{
+                alignItems: "center",
+                backgroundColor: "#BF360C",
+                padding: 10,
+                opacity: 0.7,
+              }}
+            >
+              <Text style={{ fontFamily: "RobotoMono-Bold", fontSize: 24 }}>
+                RECIPES
+              </Text>
+            </TouchableOpacity>
+            {/*<Text
+                //   style={{
+                //     margn: 10,
+                //     fontSize: 16,
+                //     fontFamily: "RobotoMono-Italic",
+                //   }}
+                // >
+                //   {items.description}
+                // </Text>*/}
+          </Card>
+        </View>
+      );
+    };
+
     return (
-      <ScrollView style={{ backgroundColor: "#CE93D8" }}>
+      <ScrollView style={{ backgroundColor: "rgb(180,40,150)" }}>
         <Header />
-        <RenderItem
-          item={this.state.recipes}
-          onPress={() => navigate("FoodInfo", {})}
+        <FlatList
+          data={this.state.recipes}
+          renderItem={renderRecipeItem}
+          keyExtractor={(item) => item.id.toString()}
         />
       </ScrollView>
     );

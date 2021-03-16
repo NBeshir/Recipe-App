@@ -45,7 +45,7 @@ export default App;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    fontFamily: "Nunito",
+    fontFamily: "Nunito-SemiBold",
     alignItems: "center",
     justifyContent: "center",
   },
