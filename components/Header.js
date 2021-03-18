@@ -33,9 +33,12 @@ class Header extends Component {
       <View
         style={{
           alignItems: "center",
-          margin: 20,
+          marginTop: 10,
+          marginRight: 5,
+          marginLeft: 5,
           padding: 10,
           opacity: 0.7,
+          backgroundColor: "#b8b8b8",
         }}
       >
         <Text
@@ -45,7 +48,7 @@ class Header extends Component {
             fontFamily: "RobotoMono-ExtraLight",
           }}
         >
-          Cultural Recipes App
+          International Recipes App
         </Text>
       </View>
     );
