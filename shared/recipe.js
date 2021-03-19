@@ -1,7 +1,7 @@
 export const RECIPES = [
   {
     id: 0,
-    name: "thai",
+    name: "thai, Indonesian",
     country: "Thai Cuisine",
     recipes: [
       {
