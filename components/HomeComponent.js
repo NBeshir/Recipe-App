@@ -9,15 +9,10 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { FlatList, ImageBackground } from "react-native";
-import { SearchBar, Card, registerCustomIconType } from "react-native-elements";
+import { SearchBar, Card } from "react-native-elements";
 import { RECIPES } from "../shared/recipe";
 import Header from "./Header";
 import * as Font from "expo-font";
-import American from "./American";
-import Thai from "./Thai";
-import Indian from "./Indian";
-import Ethiopian from "./Ethiopian";
-import Taiwanese from "./Taiwanese";
 
 class Home extends Component {
   constructor(props) {
@@ -25,10 +20,10 @@ class Home extends Component {
     this.state = {
       recipes: RECIPES,
       fontsLoaded: false,
-
-      search: [],
+      search: RECIPES,
     };
   }
+
   static navigationOptions = {
     title: "Home",
   };
@@ -53,20 +48,22 @@ class Home extends Component {
   // }
 
   updateSearch = (recipe) => {
-    this.setState({
-      search: this.state.recipes.find((rec) =>
-        rec.name.toLowerCase().includes(recipe.toLowerCase())
-      ),
+    const filtered = this.state.recipes.filter((recipes) => {
+      return recipes.name.toLowerCase().includes(recipe.toLowerCase());
     });
+    this.setState({ search: filtered });
   };
+
   render() {
     const { navigate } = this.props.navigation;
-
+    //key={recipe.title + recipe.author + recipe.prepTime}
     const renderRecipeItem = ({ item }) => {
-      item.map((recipe) => {
+      if (item) {
+        // return item.recipes.map((recipe) => {
         return (
           <View
-            key={recipe.title + recipe.author + recipe.prepTime}
+            //  key={item.recipeTitle + item.author + item.prep}
+            key={item.id}
             style={{
               borderRadius: 8,
               margin: 10,
@@ -98,7 +95,7 @@ class Home extends Component {
                   minWidth: "100%",
                   height: 200,
                 }}
-                source={{ uri: recipe.image }}
+                source={{ uri: item.homeImage }}
               />
               <View style={styles.overlay}></View>
               <Text
@@ -112,7 +109,7 @@ class Home extends Component {
                   fontSize: 28,
                 }}
               >
-                {recipe.country}
+                {item.country}
               </Text>
             </View>
             <TouchableOpacity
@@ -125,13 +122,15 @@ class Home extends Component {
                 opacity: 0.7,
                 width: "100%",
               }}
-              onPress={() => navigate("FoodInfo", { recipeId: recipe.id })}
+              onPress={() => navigate("FoodInfo", { recipeId: item.id })}
             >
               <Text style={{ fontSize: 24 }}>RECIPES</Text>
             </TouchableOpacity>
           </View>
         );
-      });
+      }
+
+      return <View />;
     };
 
     return (
@@ -147,7 +146,7 @@ class Home extends Component {
           />
 
           <FlatList
-            data={this.state.search.recipes}
+            data={this.state.search}
             renderItem={renderRecipeItem}
             keyExtractor={(item) => item.id.toString()}
           />
