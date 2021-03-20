@@ -141,8 +141,22 @@ export const RECIPES = [
         description: "A very delicious American food that you will enjoy",
         date: new Date().toDateString(),
       },
+      {
+        recipeTitle: "Alicha Kik",
+        author: "Girum Elias",
+        rating: 5,
+        prep: "10 mins",
+        cook: "55 mins",
+        total: "1 hr 5 mins",
+        image:
+          "https://images.unsplash.com/photo-1602030638412-bb8dcc0bc8b0?ixid=MXwxMjA3fDB8MHxzZWFyY2h8M3x8YW1lcmljYW4lMjBmb29kfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+        video: "https://www.youtube.com/watch?v=oD1DlijLo_I",
+        description: "A very delicious American food that you will enjoy",
+        date: new Date().toDateString(),
+      },
     ],
   },
+
   {
     id: 4,
     name: "indian",
