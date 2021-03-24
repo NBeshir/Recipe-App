@@ -10,17 +10,20 @@ import {
 } from "react-native";
 import { FlatList, ImageBackground } from "react-native";
 import { SearchBar, Card } from "react-native-elements";
-import { RECIPES } from "../shared/recipe";
+//import { RECIPES } from "../shared/recipe";
 import Header from "./Header";
+import { baseUrl } from "../shared/baseUrl";
 import * as Font from "expo-font";
+import FoodInfo from "./FoodInfoComponent";
 
 class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      recipes: RECIPES,
+      recipes: [],
       fontsLoaded: false,
-      search: RECIPES,
+      search: [],
+      data: [],
     };
   }
 
@@ -46,21 +49,25 @@ class Home extends Component {
   // componentDidMount() {
   //   this.loadFonts();
   // }
-
-  updateSearch = (recipe) => {
-    const filtered = this.state.recipes.filter((recipes) => {
-      return recipes.name.toLowerCase().includes(recipe.toLowerCase());
-    });
-    this.setState({ search: filtered });
-  };
-
+  componentDidMount() {
+    fetch(baseUrl + "RECIPES")
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        this.setState({ recipes: [...this.state.recipes, data] });
+        // console.log(this.state.recipes);
+      });
+  }
+  //  handleSearch() {
+  //    this.setState({data:})
+  //   }
   render() {
     const { navigate } = this.props.navigation;
     //key={recipe.title + recipe.author + recipe.prepTime}
-    const renderRecipeItem = ({ item }) => {
+    function renderRecipeItem({ item }) {
       if (item) {
-        // return item.recipes.map((recipe) => {
-        return (
+        return item.map((i, id) => (
           <View
             //  key={item.recipeTitle + item.author + item.prep}
             key={item.id}
@@ -95,7 +102,7 @@ class Home extends Component {
                   minWidth: "100%",
                   height: 200,
                 }}
-                source={{ uri: item.homeImage }}
+                source={{ uri: baseUrl + i.homeImage }}
               />
               <View style={styles.overlay}></View>
               <Text
@@ -109,7 +116,7 @@ class Home extends Component {
                   fontSize: 28,
                 }}
               >
-                {item.country}
+                {i.country}
               </Text>
             </View>
             <TouchableOpacity
@@ -122,40 +129,43 @@ class Home extends Component {
                 opacity: 0.7,
                 width: "100%",
               }}
-              onPress={() => navigate("FoodInfo", { recipeId: item.id })}
+              // onPress={() => navigate("FoodInfo", { recipeId: item.id })}
+
+              onPress={() => {
+                navigate("FoodInfo", {
+                  recipes: i.recipes,
+                  comments: i.comments,
+
+                  //specificData: this.state.recipes,
+                });
+              }}
             >
               <Text style={{ fontSize: 24 }}>RECIPES</Text>
             </TouchableOpacity>
           </View>
-        );
+        ));
       }
-
       return <View />;
-    };
+    }
 
     return (
       <View>
         <ScrollView style={{}}>
           <Header />
-          <SearchBar
-            round
-            lightTheme
-            style={{ borderRadius: 5 }}
-            placeholder="Search a recipe..."
-            onChangeText={(recipe) => this.updateSearch(recipe)}
-          />
 
           <FlatList
-            data={this.state.search}
+            data={this.state.recipes}
             renderItem={renderRecipeItem}
-            keyExtractor={(item) => item.id.toString()}
+            //keyExtractor={(item) => item.id.toString()}
           />
         </ScrollView>
       </View>
     );
   }
 }
-
+// <TouchableOpacity onPress={this.updateSearch}>
+//   <Text>Search</Text>
+// </TouchableOpacity>
 const styles = StyleSheet.create({
   overlay: {
     position: "absolute",
