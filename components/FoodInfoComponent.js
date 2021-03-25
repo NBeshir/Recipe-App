@@ -24,12 +24,10 @@ import { baseUrl } from "../shared/baseUrl";
 import * as Animatable from "react-native-animatable";
 
 // key={food.recipeTitle + food.author + food.prep}
-const RenderRecipe = ({ recipe }) => {
-  //const commentText = comments.map(comment);
+const RenderRecipe = ({ recipe, comments }) => {
   if (recipe) {
     return recipe.map((food) => (
-      //console.log(recipe);
-      // return (
+      //return comments.map((comment) => (
       <View
         key={food.recId}
         style={{
@@ -294,6 +292,79 @@ const RenderRecipe = ({ recipe }) => {
             >
               Reviews
             </Text>
+
+            <View>
+              <Rating
+                showRating
+                imageSize={40}
+                // onFinishRating={(rating) => this.setState({ rating: rating })}
+                style={{ paddingVertical: 10 }}
+              />
+
+              <Input
+                placeholder="Author"
+                leftIcon={{ type: "font-awesome", name: "user-o" }}
+                leftIconContainerStyle={{ paddingRight: 10 }}
+                onChangeText={(author) => this.setState({ author: author })}
+                value="author"
+              />
+
+              <Input
+                placeholder="Comment"
+                leftIcon={{ type: "font-awesome", name: "comment-o" }}
+                leftIconContainerStyle={{ paddingRight: 10 }}
+                onChangeText={(comment) => this.setState({ text: comment })}
+                value="text"
+              />
+
+              <View style={{ margin: 10 }}>
+                <Button
+                  title="Submit"
+                  color="#5637DD"
+                  // onPress={() => {
+                  //   this.handleComment(campsiteId);
+                  //   this.resetForm();
+                  // }}
+                />
+              </View>
+
+              <View style={{ margin: 10 }}>
+                <Button
+                  // onPress={() => {
+                  //   this.toggleModal();
+                  //   this.resetForm();
+                  // }}
+                  color="#808080"
+                  title="Cancel"
+                />
+              </View>
+            </View>
+            {comments.map((comment) => (
+              <View
+                style={{
+                  margin: 10,
+                  borderColor: "red",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderTop: 1,
+                }}
+              >
+                <Text style={{ fontSize: 14 }}>{comment.text}</Text>
+
+                <Rating
+                  startingValue={comment.rating}
+                  readonly
+                  imageSize={10}
+                  style={{
+                    alignItems: "flex-start",
+                    paddingVertical: "5%",
+                  }}
+                />
+                <Text
+                  style={{ fontSize: 12 }}
+                >{`--${comment.author},${comment.date}`}</Text>
+              </View>
+            ))}
           </View>
         </Animatable.View>
       </View>
@@ -316,7 +387,8 @@ class FoodInfo extends Component {
     };
   }
 
-  componentDidUpdate() {
+  componentDidMount() {
+    //console.log("hello");
     // this.setState(search:)
     //this.updateSearch();
     //console.log(this.state.search);
@@ -350,7 +422,8 @@ class FoodInfo extends Component {
 
   updateSearch = (recipeToSearch) => {
     //console.log(this.props.navigation.state.params.recipes);
-    const recipeId = this.props.navigation.getParam("recipes");
+    //const recipeId = this.props.navigation.getParam("recipes");
+
     const filtered = this.props.navigation.state.params.recipes.filter(
       (food) => {
         return food.recipeTitle
@@ -374,11 +447,14 @@ class FoodInfo extends Component {
     //const specificRecipe = this.props.navigation.state.params.recipes;
     const specificRecipe = this.state.search;
 
-    console.log(specificRecipe);
-    // const comments = this.props.navigation.state.params.recipes.comments.filter(
-    //   (comment) => comment.campsiteId === recipeId
+    //console.log(specificRecipe);
+    const comments = this.props.navigation.state.params.comments;
+
+    // .map(
+    //   (comment) => comment
     // );
 
+    //console.log(comments);
     return (
       <View>
         <ScrollView>
@@ -394,7 +470,7 @@ class FoodInfo extends Component {
           <RenderRecipe
             recipe={specificRecipe}
             //recipe={this.state.specificRecipe}
-            //comments={comments}
+            comments={comments}
           />
         </ScrollView>
       </View>

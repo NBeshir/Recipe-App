@@ -24,6 +24,7 @@ class Home extends Component {
       fontsLoaded: false,
       search: [],
       data: [],
+      comments: [],
     };
   }
 
@@ -31,6 +32,9 @@ class Home extends Component {
     title: "Home",
   };
 
+  // handleComments = () => {
+  //   console.log(this.state.comments);
+  // };
   // async loadFonts() {
   //   await Font.loadAsync({
   // Load a font `Montserrat` from a static resource
@@ -49,6 +53,7 @@ class Home extends Component {
   // componentDidMount() {
   //   this.loadFonts();
   // }
+  //commentsArray = RECIPES.comments;
   componentDidMount() {
     fetch(baseUrl + "RECIPES")
       .then((res) => {
@@ -58,12 +63,20 @@ class Home extends Component {
         this.setState({ recipes: [...this.state.recipes, data] });
         // console.log(this.state.recipes);
       });
+
+    fetch(baseUrl + "RECIPES.comments")
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        this.setState({ comments: [...this.state.comments, data] });
+        console.log(this.state.comments);
+      });
   }
-  //  handleSearch() {
-  //    this.setState({data:})
-  //   }
+
   render() {
     const { navigate } = this.props.navigation;
+    // const com = this.state.comments.map((comm) => comm);
     //key={recipe.title + recipe.author + recipe.prepTime}
     function renderRecipeItem({ item }) {
       if (item) {
@@ -135,12 +148,13 @@ class Home extends Component {
                 navigate("FoodInfo", {
                   recipes: i.recipes,
                   comments: i.comments,
-
-                  //specificData: this.state.recipes,
                 });
               }}
             >
               <Text style={{ fontSize: 24 }}>RECIPES</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => this.handleComments}>
+              <Text> hello</Text>
             </TouchableOpacity>
           </View>
         ));
