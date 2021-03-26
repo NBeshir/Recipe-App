@@ -1,14 +1,18 @@
+// From popup modal branch
 import React, { Component } from "react";
 import {
   StyleSheet,
   Text,
   View,
+  Modal,
   Image,
+  TextInput,
   ScrollView,
   Button,
   TouchableOpacity,
+  FlatList,
+  ImageBackground,
 } from "react-native";
-import { FlatList, ImageBackground } from "react-native";
 import { SearchBar, Card } from "react-native-elements";
 import { RECIPES } from "../shared/recipe";
 import Header from "./Header";
@@ -21,6 +25,8 @@ class Home extends Component {
       recipes: RECIPES,
       fontsLoaded: false,
       search: RECIPES,
+      showModal: false,
+      modalHasBeenShowntoUser: false,
     };
   }
 
@@ -53,6 +59,18 @@ class Home extends Component {
     });
     this.setState({ search: filtered });
   };
+
+  // Pop-up Modal when user scrolls down the page
+  onScrollViewScrolled() {
+    if (this.state.modalHasBeenShowntoUser === false) {
+      setTimeout(() => {
+        this.setState({
+          modalHasBeenShowntoUser: true,
+          showModal: true,
+        });
+      }, 2000);
+    }
+  }
 
   render() {
     const { navigate } = this.props.navigation;
@@ -135,7 +153,7 @@ class Home extends Component {
 
     return (
       <View>
-        <ScrollView style={{}}>
+        <ScrollView onScrollBeginDrag={() => this.onScrollViewScrolled()}>
           <Header />
           <SearchBar
             round
@@ -151,6 +169,50 @@ class Home extends Component {
             keyExtractor={(item) => item.id.toString()}
           />
         </ScrollView>
+        {/* Modal Content */}
+        <Modal transparent={true} visible={this.state.showModal}>
+          <View style={styles.modalViewContainerStyle}>
+            <View style={styles.modalBackgroundViewStyle}>
+              <View style={styles.closeModalContainerStyle}>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.setState({ showModal: false });
+                  }}
+                >
+                  <View>
+                    <Text>X</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.modalMainContentContainerStyle}>
+                <Text style={styles.modalTitleTextStyle}>
+                  Get Recipe Weekly
+                </Text>
+                <TextInput
+                  style={styles.modalInputStyle}
+                  placeholder="  Email"
+                  keyboardType="email-address"
+                />
+                <TouchableOpacity
+                  onPress={() => {
+                    this.setState({ showModal: false });
+                  }}
+                  style={{ width: "80%" }}
+                >
+                  <View style={styles.submitButtonViewStyle} title="Submit">
+                    <Text
+                      style={{
+                        color: "white",
+                      }}
+                    >
+                      SUBMIT
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
       </View>
     );
   }
@@ -165,6 +227,46 @@ const styles = StyleSheet.create({
     left: 0,
     backgroundColor: "red",
     opacity: 0.3,
+  },
+  modalInputStyle: {
+    height: 30,
+    margin: 15,
+    borderWidth: 1,
+    width: "80%",
+  },
+  modalViewContainerStyle: {
+    backgroundColor: "#000000aa",
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalBackgroundViewStyle: {
+    backgroundColor: "#ffffff",
+    margin: 50,
+    alignItems: "center",
+    borderRadius: 25,
+    height: 200,
+    width: 300,
+  },
+  closeModalContainerStyle: {
+    alignSelf: "flex-end",
+    marginRight: 15,
+    marginTop: 15,
+  },
+  modalMainContentContainerStyle: {
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalTitleTextStyle: { fontSize: 25 },
+  submitButtonViewStyle: {
+    fontSize: 10,
+    width: "100%",
+    padding: 10,
+    backgroundColor: "dodgerblue",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 
