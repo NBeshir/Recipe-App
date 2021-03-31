@@ -19,7 +19,6 @@ export const RECIPES = [
         video: "https://www.youtube.com/watch?v=oD1DlijLo_I",
         description: "A very delicious  Thai food that you will enjoy",
         date: new Date().toDateString(),
-        comments: [],
       },
       {
         recId: 1,
@@ -34,7 +33,6 @@ export const RECIPES = [
         video: "https://www.youtube.com/watch?v=oD1DlijLo_I",
         description: "A very delicious  Thai food that you will enjoy",
         date: new Date().toDateString(),
-        comments: [],
       },
     ],
   },
@@ -59,7 +57,6 @@ export const RECIPES = [
         video: "https://www.youtube.com/watch?v=oD1DlijLo_I",
         description: "A very delicious Taiwanese food that you will enjoy",
         date: new Date().toDateString(),
-        comments: [],
       },
       {
         recId: 1,
@@ -74,7 +71,6 @@ export const RECIPES = [
         video: "https://www.youtube.com/watch?v=oD1DlijLo_I",
         description: "A very delicious Taiwanese food that you will enjoy",
         date: new Date().toDateString(),
-        comments: [],
       },
     ],
   },
@@ -98,7 +94,6 @@ export const RECIPES = [
         video: "https://www.youtube.com/watch?v=oD1DlijLo_I",
         description: "A very delicious American food that you will enjoy",
         date: new Date().toDateString(),
-        comments: [],
       },
       {
         recId: 1,
@@ -113,7 +108,6 @@ export const RECIPES = [
         video: "https://www.youtube.com/watch?v=oD1DlijLo_I",
         description: "A very delicious American food that you will enjoy",
         date: new Date().toDateString(),
-        comments: [],
       },
     ],
   },
@@ -140,7 +134,6 @@ export const RECIPES = [
         video: "https://www.youtube.com/watch?v=oD1DlijLo_I",
         description: "A very delicious Ethiopian food that you will enjoy",
         date: new Date().toDateString(),
-        comments: [],
       },
       {
         recId: 1,
@@ -155,7 +148,6 @@ export const RECIPES = [
         video: "https://www.youtube.com/watch?v=oD1DlijLo_I",
         description: "A very delicious American food that you will enjoy",
         date: new Date().toDateString(),
-        comments: [],
       },
       {
         recId: 2,
@@ -170,7 +162,6 @@ export const RECIPES = [
         video: "https://www.youtube.com/watch?v=oD1DlijLo_I",
         description: "A very delicious American food that you will enjoy",
         date: new Date().toDateString(),
-        comments: [],
       },
     ],
   },
@@ -197,7 +188,6 @@ export const RECIPES = [
         video: "https://www.youtube.com/watch?v=oD1DlijLo_I",
         description: "Authentic Indian recipes",
         date: new Date().toDateString(),
-        comments: [],
       },
       {
         recId: 1,
@@ -213,7 +203,6 @@ export const RECIPES = [
         video: "https://www.youtube.com/watch?v=oD1DlijLo_I",
         description: "Authentic Indian recipes",
         date: new Date().toDateString(),
-        comments: [],
       },
     ],
   },

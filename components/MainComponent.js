@@ -7,11 +7,6 @@ import { createDrawerNavigator } from "react-navigation-drawer";
 import FoodInfo from "./FoodInfoComponent";
 import { RECIPES } from "../shared/recipe";
 import RouteComponent from "./RouteComponent";
-import Taiwanese from "./Taiwanese";
-import Ethiopian from "./Ethiopian";
-import Indian from "./Indian";
-import American from "./American";
-import Thai from "./Thai";
 
 const HomeNavigator = createStackNavigator(
   {
@@ -32,115 +27,115 @@ const HomeNavigator = createStackNavigator(
   }
 );
 
-const IndianNavigator = createStackNavigator(
-  {
-    Indian: { screen: Indian },
-  },
-  {
-    defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: "#5637DD",
-      },
-      headerTintColor: "#fff",
-      headerTitleStyle: {
-        color: "#fff",
-      },
-    },
-  }
-);
-const ThaiNavigator = createStackNavigator(
-  {
-    Thai: { screen: Thai },
-  },
-  {
-    defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: "#5637DD",
-      },
-      headerTintColor: "#fff",
-      headerTitleStyle: {
-        color: "#fff",
-      },
-    },
-  }
-);
+// const IndianNavigator = createStackNavigator(
+//   {
+//     Indian: { screen: Indian },
+//   },
+//   {
+//     defaultNavigationOptions: {
+//       headerStyle: {
+//         backgroundColor: "#5637DD",
+//       },
+//       headerTintColor: "#fff",
+//       headerTitleStyle: {
+//         color: "#fff",
+//       },
+//     },
+//   }
+// );
+// const ThaiNavigator = createStackNavigator(
+//   {
+//     Thai: { screen: Thai },
+//   },
+//   {
+//     defaultNavigationOptions: {
+//       headerStyle: {
+//         backgroundColor: "#5637DD",
+//       },
+//       headerTintColor: "#fff",
+//       headerTitleStyle: {
+//         color: "#fff",
+//       },
+//     },
+//   }
+// );
 
-const TaiwaneseNavigator = createStackNavigator(
-  {
-    Taiwanese: { screen: Taiwanese },
-  },
-  {
-    defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: "#5637DD",
-      },
-      headerTintColor: "#fff",
-      headerTitleStyle: {
-        color: "#fff",
-      },
-    },
-  }
-);
-const AmericanNavigator = createStackNavigator(
-  {
-    American: { screen: American },
-  },
-  {
-    defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: "#5637DD",
-      },
-      headerTintColor: "#fff",
-      headerTitleStyle: {
-        color: "#fff",
-      },
-    },
-  }
-);
+// const TaiwaneseNavigator = createStackNavigator(
+//   {
+//     Taiwanese: { screen: Taiwanese },
+//   },
+//   {
+//     defaultNavigationOptions: {
+//       headerStyle: {
+//         backgroundColor: "#5637DD",
+//       },
+//       headerTintColor: "#fff",
+//       headerTitleStyle: {
+//         color: "#fff",
+//       },
+//     },
+//   }
+// );
+// const AmericanNavigator = createStackNavigator(
+//   {
+//     American: { screen: American },
+//   },
+//   {
+//     defaultNavigationOptions: {
+//       headerStyle: {
+//         backgroundColor: "#5637DD",
+//       },
+//       headerTintColor: "#fff",
+//       headerTitleStyle: {
+//         color: "#fff",
+//       },
+//     },
+//   }
+// );
 
-const EthiopianNavigator = createStackNavigator(
-  {
-    Ethiopian: { screen: Ethiopian },
-  },
-  {
-    defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: "#5637DD",
-      },
-      headerTintColor: "#fff",
-      headerTitleStyle: {
-        color: "#fff",
-      },
-    },
-  }
-);
+// const EthiopianNavigator = createStackNavigator(
+//   {
+//     Ethiopian: { screen: Ethiopian },
+//   },
+//   {
+//     defaultNavigationOptions: {
+//       headerStyle: {
+//         backgroundColor: "#5637DD",
+//       },
+//       headerTintColor: "#fff",
+//       headerTitleStyle: {
+//         color: "#fff",
+//       },
+//     },
+//   }
+// );
 
-const RouteNavigator = createStackNavigator(
-  {
-    RouteComponent: { screen: RouteComponent },
-  },
-  {
-    defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: "#5637DD",
-      },
-      headerTintColor: "#fff",
-      headerTitleStyle: {
-        color: "#fff",
-      },
-    },
-  }
-);
+// const RouteNavigator = createStackNavigator(
+//   {
+//     RouteComponent: { screen: RouteComponent },
+//   },
+//   {
+//     defaultNavigationOptions: {
+//       headerStyle: {
+//         backgroundColor: "#5637DD",
+//       },
+//       headerTintColor: "#fff",
+//       headerTitleStyle: {
+//         color: "#fff",
+//       },
+//     },
+//   }
+// );
 
 const MainNavigator = createDrawerNavigator(
   {
     Home: { screen: HomeNavigator },
     // RouteComponent: { screen: RouteNavigator },
-    Taiwanese: { screen: TaiwaneseNavigator },
-    Ethiopian: { screen: EthiopianNavigator },
-    American: { screen: AmericanNavigator },
-    Indian: { screen: IndianNavigator },
-    Thai: { screen: ThaiNavigator },
+    // Taiwanese: { screen: TaiwaneseNavigator },
+    // Ethiopian: { screen: EthiopianNavigator },
+    // American: { screen: AmericanNavigator },
+    // Indian: { screen: IndianNavigator },
+    // Thai: { screen: ThaiNavigator },
     // FoodInfo: { screen: FoodNavigator },
   },
   {

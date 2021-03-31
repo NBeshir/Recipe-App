@@ -13,6 +13,7 @@ import { SearchBar, Card } from "react-native-elements";
 //import { RECIPES } from "../shared/recipe";
 import Header from "./Header";
 import { baseUrl } from "../shared/baseUrl";
+import { commentUrl } from "../shared/baseUrl";
 import * as Font from "expo-font";
 import FoodInfo from "./FoodInfoComponent";
 
@@ -25,6 +26,9 @@ class Home extends Component {
       search: [],
       data: [],
       comments: [],
+      rating: "",
+      author: "",
+      text: "",
     };
   }
 
@@ -32,57 +36,50 @@ class Home extends Component {
     title: "Home",
   };
 
-  // handleComments = () => {
-  //   console.log(this.state.comments);
-  // };
-  // async loadFonts() {
-  //   await Font.loadAsync({
-  // Load a font `Montserrat` from a static resource
-  // "RobotoMono-Italic": require("../assets/fonts/RobotoMono-Italic.ttf"),
-  // "RobotoMono-Regular": require("../assets/fonts/RobotoMono-Regular.ttf"),
-  //"RobotoMono-Bold": require("../assets/fonts/RobotoMono-Bold.ttf"),
+  handleComments = () => {
+    console.log(this.state.comments);
+  };
 
-  // Any string can be used as the fontFamily name. Here we use an object to provide more control
-  //     "RobotoMono-Light": {
-  //       uri: require("../assets/fonts/RobotoMono-Light.ttf"),
-  //       display: Font.FontDisplay.FALLBACK,
-  //     },
-  //   });
-  //   this.setState({ fontsLoaded: true });
-  // }
-  // componentDidMount() {
-  //   this.loadFonts();
-  // }
-  //commentsArray = RECIPES.comments;
+  async loadFonts() {
+    await Font.loadAsync({
+      //Load a font `Montserrat` from a static resource
+      "RobotoMono-Italic": require("../assets/fonts/RobotoMono-Italic.ttf"),
+      "RobotoMono-Regular": require("../assets/fonts/RobotoMono-Regular.ttf"),
+      "RobotoMono-Bold": require("../assets/fonts/RobotoMono-Bold.ttf"),
+
+      //Any string can be used as the fontFamily name. Here we use an object to provide more control
+      "RobotoMono-Light": {
+        uri: require("../assets/fonts/RobotoMono-Light.ttf"),
+        display: Font.FontDisplay.FALLBACK,
+      },
+    });
+    this.setState({ fontsLoaded: true });
+  }
+  componentDidMount() {
+    this.loadFonts();
+  }
+
   componentDidMount() {
     fetch(baseUrl + "RECIPES")
       .then((res) => {
         return res.json();
       })
       .then((data) => {
-        this.setState({ recipes: [...this.state.recipes, data] });
-        // console.log(this.state.recipes);
-      });
-
-    fetch(baseUrl + "RECIPES.comments")
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        this.setState({ comments: [...this.state.comments, data] });
-        console.log(this.state.comments);
+        this.setState({
+          recipes: [...this.state.recipes, data],
+        });
+        console.log(this.state.recipes);
       });
   }
 
   render() {
     const { navigate } = this.props.navigation;
-    // const com = this.state.comments.map((comm) => comm);
+
     //key={recipe.title + recipe.author + recipe.prepTime}
     function renderRecipeItem({ item }) {
       if (item) {
-        return item.map((i, id) => (
+        return item.map((i) => (
           <View
-            //  key={item.recipeTitle + item.author + item.prep}
             key={item.id}
             style={{
               borderRadius: 8,
@@ -142,19 +139,13 @@ class Home extends Component {
                 opacity: 0.7,
                 width: "100%",
               }}
-              // onPress={() => navigate("FoodInfo", { recipeId: item.id })}
-
               onPress={() => {
                 navigate("FoodInfo", {
                   recipes: i.recipes,
-                  comments: i.comments,
                 });
               }}
             >
               <Text style={{ fontSize: 24 }}>RECIPES</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => this.handleComments}>
-              <Text> hello</Text>
             </TouchableOpacity>
           </View>
         ));
@@ -177,9 +168,7 @@ class Home extends Component {
     );
   }
 }
-// <TouchableOpacity onPress={this.updateSearch}>
-//   <Text>Search</Text>
-// </TouchableOpacity>
+
 const styles = StyleSheet.create({
   overlay: {
     position: "absolute",

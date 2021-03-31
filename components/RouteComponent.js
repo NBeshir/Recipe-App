@@ -8,12 +8,7 @@ import {
   Button,
   TouchableOpacity,
 } from "react-native";
-import Home from "./HomeComponent";
-import American from "./American";
-import Thai from "./Thai";
-import Indian from "./Indian";
-import Ethiopian from "./Ethiopian";
-import Taiwanese from "./Taiwanese";
+
 import { RECIPES } from "../shared/recipe";
 
 class RouteComponent extends Component {
