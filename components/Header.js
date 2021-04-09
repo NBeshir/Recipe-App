@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, Image, ScrollView } from "react-native";
-//import { ListItem, Card } from "react-native-elements";
+import { StyleSheet, Text, View } from "react-native";
 
 class Header extends Component {
   constructor(props) {
@@ -48,7 +47,7 @@ class Header extends Component {
             fontFamily: "RobotoMono-ExtraLight",
           }}
         >
-          International Recipes App
+          Multicultural Recipes App
         </Text>
       </View>
     );

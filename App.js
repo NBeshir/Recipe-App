@@ -3,12 +3,16 @@ import React, { Component } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Main from "./components/MainComponent";
 import * as Font from "expo-font";
+import { ConfigureStore } from "./redux/configureStore";
+import { PersistGate } from "redux-persist/es/integration/react";
+import { Provider } from "react-redux";
 
 // const getFonts = () =>
 //   Font.loadAsync({
 //     "nunito-regular": require("./assets/fonts/Nunito-Regular.ttf"),
 //     "nunito-bold": require("./assets/fonts/Nunito-Bold.ttf"),
 //   });
+const { persistor, store } = ConfigureStore();
 
 class App extends Component {
   constructor(props) {
@@ -35,13 +39,20 @@ class App extends Component {
   }
   render() {
     return (
-      <View style={styles.container}>
-        <Main />
-      </View>
+      <Provider store={store}>
+        <PersistGate persistor={persistor}>
+          <Main />
+        </PersistGate>
+      </Provider>
     );
   }
 }
 export default App;
+// <Provider store={store}>
+//         //<View style={styles.container}>
+//           <Main />
+//         </View>
+//       </Provider>
 const styles = StyleSheet.create({
   container: {
     flex: 1,

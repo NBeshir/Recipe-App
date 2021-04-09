@@ -1,21 +1,42 @@
 import React, { Component } from "react";
-import { StyleSheet, View, Icon } from "react-native";
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  SafeAreaView,
+  Image,
+  Text,
+} from "react-native";
+import { Icon } from "react-native-elements";
 import Home from "./HomeComponent";
+import Favorites from "./FavoriteComponent";
 import { createStackNavigator } from "react-navigation-stack";
 import { createAppContainer } from "react-navigation";
-import { createDrawerNavigator } from "react-navigation-drawer";
+import { createDrawerNavigator, DrawerItems } from "react-navigation-drawer";
 import FoodInfo from "./FoodInfoComponent";
 import { RECIPES } from "../shared/recipe";
-import RouteComponent from "./RouteComponent";
+import { connect } from "react-redux";
+import { fetchRecipes, fetchComments } from "../redux/ActionCreators";
 
 const HomeNavigator = createStackNavigator(
   {
     Home: { screen: Home },
+
+    initialRouteName: "Home",
+    navigationOptions: ({ navigation }) => ({
+      headerLeft: (
+        <Icon
+          name="list"
+          type="font-awesome"
+          onPress={() => navigation.toggleDrawer()}
+          //iconStyle={StyleSheet.stackIcon}
+        />
+      ),
+    }),
     FoodInfo: { screen: FoodInfo },
   },
   {
-    initialRouteName: "Home",
-    defaultNavigationOptions: {
+    navigationOptions: ({ navigation }) => ({
       headerStyle: {
         backgroundColor: "#5637DD",
       },
@@ -23,126 +44,89 @@ const HomeNavigator = createStackNavigator(
       headerTitleStyle: {
         color: "#fff",
       },
-    },
+      headerLeft: (
+        <Icon
+          name="home"
+          type="font-awesome"
+          onPress={() => navigation.toggleDrawer()}
+          // iconStyle={StyleSheet.stackIcon}
+        />
+      ),
+    }),
   }
 );
-
-// const IndianNavigator = createStackNavigator(
-//   {
-//     Indian: { screen: Indian },
-//   },
-//   {
-//     defaultNavigationOptions: {
-//       headerStyle: {
-//         backgroundColor: "#5637DD",
-//       },
-//       headerTintColor: "#fff",
-//       headerTitleStyle: {
-//         color: "#fff",
-//       },
-//     },
-//   }
-// );
-// const ThaiNavigator = createStackNavigator(
-//   {
-//     Thai: { screen: Thai },
-//   },
-//   {
-//     defaultNavigationOptions: {
-//       headerStyle: {
-//         backgroundColor: "#5637DD",
-//       },
-//       headerTintColor: "#fff",
-//       headerTitleStyle: {
-//         color: "#fff",
-//       },
-//     },
-//   }
-// );
-
-// const TaiwaneseNavigator = createStackNavigator(
-//   {
-//     Taiwanese: { screen: Taiwanese },
-//   },
-//   {
-//     defaultNavigationOptions: {
-//       headerStyle: {
-//         backgroundColor: "#5637DD",
-//       },
-//       headerTintColor: "#fff",
-//       headerTitleStyle: {
-//         color: "#fff",
-//       },
-//     },
-//   }
-// );
-// const AmericanNavigator = createStackNavigator(
-//   {
-//     American: { screen: American },
-//   },
-//   {
-//     defaultNavigationOptions: {
-//       headerStyle: {
-//         backgroundColor: "#5637DD",
-//       },
-//       headerTintColor: "#fff",
-//       headerTitleStyle: {
-//         color: "#fff",
-//       },
-//     },
-//   }
-// );
-
-// const EthiopianNavigator = createStackNavigator(
-//   {
-//     Ethiopian: { screen: Ethiopian },
-//   },
-//   {
-//     defaultNavigationOptions: {
-//       headerStyle: {
-//         backgroundColor: "#5637DD",
-//       },
-//       headerTintColor: "#fff",
-//       headerTitleStyle: {
-//         color: "#fff",
-//       },
-//     },
-//   }
-// );
-
-// const RouteNavigator = createStackNavigator(
-//   {
-//     RouteComponent: { screen: RouteComponent },
-//   },
-//   {
-//     defaultNavigationOptions: {
-//       headerStyle: {
-//         backgroundColor: "#5637DD",
-//       },
-//       headerTintColor: "#fff",
-//       headerTitleStyle: {
-//         color: "#fff",
-//       },
-//     },
-//   }
-// );
-
-const MainNavigator = createDrawerNavigator(
+const FavoritesNavigator = createStackNavigator(
   {
-    Home: { screen: HomeNavigator },
-    // RouteComponent: { screen: RouteNavigator },
-    // Taiwanese: { screen: TaiwaneseNavigator },
-    // Ethiopian: { screen: EthiopianNavigator },
-    // American: { screen: AmericanNavigator },
-    // Indian: { screen: IndianNavigator },
-    // Thai: { screen: ThaiNavigator },
-    // FoodInfo: { screen: FoodNavigator },
+    Favorites: { screen: Favorites },
   },
   {
-    drawerBackgroundColor: "#CEC8FF",
+    defaultNavigationOptions: ({ navigation }) => ({
+      headerStyle: {
+        backgroundColor: "#5637DD",
+      },
+      headerTintColor: "#fff",
+      headerTitleStyle: {
+        color: "#fff",
+      },
+      headerLeft: (
+        <Icon
+          name="heart"
+          type="font-awesome"
+          // iconStyle={styles.stackIcon}
+          onPress={() => navigation.toggleDrawer()}
+        />
+      ),
+    }),
   }
 );
 
+const CustomDrawerContentComponent = (props) => (
+  <ScrollView>
+    <SafeAreaView
+      //style={styles.container}
+      forceInset={{ top: "always", horizontal: "never" }}
+    >
+      <View //style={styles.drawerHeader}
+      >
+        <View style={{ flex: 1 }}>
+          <Image
+          // source={require("../assets/images/logo.png")}
+          // style={styles.drawerImage}
+          />
+        </View>
+        <View style={{ flex: 2 }}>
+          <Text>Variety</Text>
+        </View>
+      </View>
+      <DrawerItems {...props} />
+    </SafeAreaView>
+  </ScrollView>
+);
+const MainNavigator = createDrawerNavigator(
+  {
+    Home: {
+      screen: HomeNavigator,
+      navigationOptions: {
+        drawerIcon: ({ tintColor }) => (
+          <Icon name="home" type="font-awesome" size={24} color={tintColor} />
+        ),
+      },
+    },
+
+    Favorites: {
+      screen: FavoritesNavigator,
+      navigationOptions: {
+        drawerLabel: "My Favorites",
+        drawerIcon: ({ tintColor }) => (
+          <Icon name="heart" type="font-awesome" size={24} color={tintColor} />
+        ),
+      },
+    },
+  },
+  {
+    contentComponent: CustomDrawerContentComponent,
+  }
+);
 const AppNavigator = createAppContainer(MainNavigator);
 
 class Main extends Component {
@@ -154,10 +138,12 @@ class Main extends Component {
       route: "",
     };
   }
-  // onRouteSelect(RecipeId) {
-  //   this.setState({ route: RecipeId });
-  // }
 
+  componentDidMount() {
+    // console.log();
+    this.props.fetchRecipes();
+    this.props.fetchComments();
+  }
   render() {
     return (
       <View
@@ -175,4 +161,9 @@ class Main extends Component {
   }
 }
 
-export default Main;
+mapDispatchToProps = {
+  fetchRecipes,
+  fetchComments,
+};
+mapDispatchToProps;
+export default connect(null, mapDispatchToProps)(Main);
