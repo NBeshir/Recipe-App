@@ -103,10 +103,10 @@ class InputComponent extends Component {
         {comments.map((comment) => {
           // this.props.comments.map(comment) => comment
           return (
-            <View style={{ backgroundColor: "#C0C0C0", width: "100%" }}>
+            <View style={{ backgroundColor: "#fff", width: "100%" }}>
               <View style={{ margin: 0 }}>
                 <View key={comment.id} style={styles.CommentView}>
-                  <Text style={{ fontSize: 14 }}>{comment.text}</Text>
+                  <Text style={{ fontSize: 16 }}>{comment.text}</Text>
                   <Rating
                     startingValue={comment.rating}
                     readonly

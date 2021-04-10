@@ -45,8 +45,8 @@ class FoodInfo extends Component {
     };
   }
 
-  markFavorite(recId) {
-    this.props.postFavorite(recId);
+  markFavorite(recipeId) {
+    this.props.postFavorite(recipeId);
   }
 
   componentDidMount() {
@@ -69,6 +69,9 @@ class FoodInfo extends Component {
     });
   };
 
+  static navigationOptions = {
+    title: "Recipes",
+  };
   render() {
     //console.log(this.props.comments);
     async function PrintDocument() {
@@ -78,32 +81,7 @@ class FoodInfo extends Component {
     }
 
     const recipeId = this.props.navigation.getParam("recipeId");
-    const rId = this.state.search.map((recipe) => recipe.recId);
-    // const recId = this.props.recipes.map((recipe) =>
-    //   recipe.recipes.map((r) => r.recId)
-    // )[0][0];
 
-    const recId = this.props.recipes
-      .map((recipe) => recipe.recipes)
-      .filter((r) => r.recId === rId);
-
-    // const recId = this.state.search.map(
-    //   (recipe) => recipe.recipes.map((rec) => rec.recId)
-    // recipe.recipes.filter((r) => r.recId === )
-    //  );
-    // console.log(this.props.recipes.map((recipes) => recipes.recipes));
-    // console.log(
-    // const rId = this.state.search.map((recipe) => recipe.recId)[0];
-
-    //this.props.favorites.map((r) => r.recId)
-    // const r = this.state.search.filter(
-    //   (recipe) => recipe.rId === this.props.favorites
-    // );
-    //console.log(rId);
-    // console.log(r);
-
-    // console.log(this.state.search.map((r) => r.recId)[0]);
-    //console.log(this.props.favorites[0]);
     const specificRecipe = this.state.search;
 
     const RenderRecipe = ({ recipe, favorite, markFavorite }) => {
@@ -115,7 +93,7 @@ class FoodInfo extends Component {
               duration={2000}
               delay={1000}
             >
-              <View style={styles.contentBox}>
+              <View style={styles.header}>
                 <Text style={{ fontSize: 24 }}>{food.recipeTitle}</Text>
 
                 <Text>Author:{food.author}</Text>
@@ -202,7 +180,7 @@ class FoodInfo extends Component {
                   />
                 </View>
 
-                <Text style={{ margin: 10 }}>{food.description}</Text>
+                <Text style={{ margin: 5 }}>{food.description}</Text>
               </Card>
               <View style={styles.recipeDetails}>
                 <View style={styles.prepTime}>
@@ -251,10 +229,7 @@ class FoodInfo extends Component {
               <View style={styles.nutritionView}>
                 <Text style={styles.nutritionText}>NUTRITION</Text>
                 {food.nutrition.map((nut) => (
-                  <View
-                    style={styles.nutritionDetails}
-                    // key={nut.nutId}
-                  >
+                  <View style={styles.nutritionDetails} key={nut.nutId}>
                     <Text style={{ borderColor: "#000", margin: 2 }}>
                       Serving: {nut.serving} serving |
                     </Text>
@@ -317,8 +292,8 @@ class FoodInfo extends Component {
 
           <RenderRecipe
             recipe={specificRecipe}
-            favorite={this.props.favorites.includes(recId)}
-            markFavorite={() => this.markFavorite(recId)}
+            favorite={this.props.favorites.includes(recipeId)}
+            markFavorite={() => this.markFavorite(recipeId)}
           />
           <View style={{ flex: 1, backgroundColor: "#0C0CC8", height: 40 }}>
             <View
@@ -345,20 +320,19 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  postFavorite: (recId) => postFavorite(recId),
+  postFavorite: (recipeId) => postFavorite(recipeId),
 };
 const styles = StyleSheet.create({
   main: {
     backgroundColor: "#d3d3d3",
-
     margin: 5,
-    padding: 5,
 
     justifyContent: "center",
     alignItems: "center",
   },
-  contentBox: {
+  header: {
     margin: 10,
+    padding: 5,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -366,13 +340,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
 
     padding: 5,
-    margin: 5,
+
     justifyContent: "center",
   },
   facebookTouchable: {
     backgroundColor: "#BF360C",
-    padding: 3,
-    margin: 3,
+    padding: 5,
+    margin: 5,
     opacity: 0.7,
     flexDirection: "row",
     alignItems: "center",
@@ -385,8 +359,8 @@ const styles = StyleSheet.create({
   },
   twitterTouchable: {
     backgroundColor: "#BF360C",
-    padding: 3,
-    margin: 3,
+    padding: 5,
+    margin: 5,
     opacity: 0.7,
     flexDirection: "row",
     alignItems: "center",
@@ -399,8 +373,8 @@ const styles = StyleSheet.create({
   },
   printTouchable: {
     backgroundColor: "#BF360C",
-    padding: 3,
-    margin: 3,
+    padding: 5,
+    margin: 5,
     opacity: 0.7,
     flexDirection: "row",
     alignItems: "center",

@@ -28,16 +28,12 @@ class Home extends Component {
 
   async loadFonts() {
     await Font.loadAsync({
-      //Load a font `Montserrat` from a static resource
       "RobotoMono-Italic": require("../assets/fonts/RobotoMono-Italic.ttf"),
       "RobotoMono-Regular": require("../assets/fonts/RobotoMono-Regular.ttf"),
       "RobotoMono-Bold": require("../assets/fonts/RobotoMono-Bold.ttf"),
-
-      //Any string can be used as the fontFamily name. Here we use an object to provide more control
-      "RobotoMono-Light": {
-        uri: require("../assets/fonts/RobotoMono-Light.ttf"),
-        display: Font.FontDisplay.FALLBACK,
-      },
+      "RobotoMono-Light": require("../assets/fonts/RobotoMono-Light.ttf"),
+    }).catch((err) => {
+      console.log(err.message);
     });
     this.setState({ fontsLoaded: true });
   }
@@ -45,17 +41,11 @@ class Home extends Component {
     this.loadFonts();
   }
 
-  // componentDidMount() {
-  //   this.setState({ recipes: this.props.recipes });
-  // }
-
   render() {
     const { navigate } = this.props.navigation;
-    //{item.recipes.RECIPES.map(rec=>rec.recipes.map(i))}
-    //key={recipe.title + recipe.author + recipe.prepTime}
+
     function renderRecipeItem({ item }) {
       if (item) {
-        //return item.recipes.map((i) => => (
         return (
           <View key={item.id} style={styles.renderItem}>
             <View style={styles.contentBox}>

@@ -23,13 +23,13 @@ const HomeNavigator = createStackNavigator(
     Home: { screen: Home },
 
     initialRouteName: "Home",
-    navigationOptions: ({ navigation }) => ({
+    defultNavigationOptions: ({ navigation }) => ({
       headerLeft: (
         <Icon
-          name="list"
+          name="next"
           type="font-awesome"
+          iconStyle={StyleSheet.homeIcon}
           onPress={() => navigation.toggleDrawer()}
-          //iconStyle={StyleSheet.stackIcon}
         />
       ),
     }),
@@ -38,7 +38,7 @@ const HomeNavigator = createStackNavigator(
   {
     navigationOptions: ({ navigation }) => ({
       headerStyle: {
-        backgroundColor: "#5637DD",
+        backgroundColor: "#65A613",
       },
       headerTintColor: "#fff",
       headerTitleStyle: {
@@ -48,8 +48,8 @@ const HomeNavigator = createStackNavigator(
         <Icon
           name="home"
           type="font-awesome"
+          iconStyle={StyleSheet.homeIcon}
           onPress={() => navigation.toggleDrawer()}
-          // iconStyle={StyleSheet.stackIcon}
         />
       ),
     }),
@@ -81,21 +81,14 @@ const FavoritesNavigator = createStackNavigator(
 );
 
 const CustomDrawerContentComponent = (props) => (
-  <ScrollView>
-    <SafeAreaView
-      //style={styles.container}
-      forceInset={{ top: "always", horizontal: "never" }}
-    >
-      <View //style={styles.drawerHeader}
-      >
+  <ScrollView style={{ backgroundColor: "#F6A27D", height: "100%" }}>
+    <SafeAreaView forceInset={{ horizontal: "never" }}>
+      <View>
         <View style={{ flex: 1 }}>
           <Image
-          // source={require("../assets/images/logo.png")}
-          // style={styles.drawerImage}
+            source={require("../assets/images/logo.jpg")}
+            style={styles.drawerImage}
           />
-        </View>
-        <View style={{ flex: 2 }}>
-          <Text>Variety</Text>
         </View>
       </View>
       <DrawerItems {...props} />
@@ -107,6 +100,7 @@ const MainNavigator = createDrawerNavigator(
     Home: {
       screen: HomeNavigator,
       navigationOptions: {
+        drawerLabel: "Home",
         drawerIcon: ({ tintColor }) => (
           <Icon name="home" type="font-awesome" size={24} color={tintColor} />
         ),
@@ -160,10 +154,21 @@ class Main extends Component {
     );
   }
 }
+const styles = StyleSheet.create({
+  homeIcon: {
+    marginLeft: 10,
+    color: "#fff",
+    fontSize: 24,
+  },
+  drawerImage: {
+    width: "100%",
+    height: 120,
+  },
+});
 
 mapDispatchToProps = {
   fetchRecipes,
   fetchComments,
 };
-mapDispatchToProps;
+
 export default connect(null, mapDispatchToProps)(Main);
