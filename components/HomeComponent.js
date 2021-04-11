@@ -61,7 +61,6 @@ class Home extends Component {
               onPress={() => {
                 navigate("FoodInfo", {
                   recipes: item.recipes,
-                  recipeId: item.id,
                 });
               }}
             >

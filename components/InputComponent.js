@@ -8,8 +8,6 @@ class InputComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      //  fontsLoaded: false,
-
       rating: 5,
       author: "",
       text: "",
@@ -32,32 +30,12 @@ class InputComponent extends Component {
       text: "",
     });
   }
-  // this.state.comments.push({
-  //   commentId: this.props.comments.length++,
-  //   rating: this.state.rating,
-  //   text: this.state.text,
-  //   author: this.state.author,
 
-  //   date: new Date().toLocaleDateString("en-US"),
-  // });
-
-  // const message = this.props.comments.concat(this.state.comments);
-
-  // this.setState({
-  //   comments: message,
-  // });
-
-  //console.log(postComment);
-
-  // componentDidMount() {
-  //   fetchComments();
-  // console.log("hello");
-  //}
   render() {
-    console.log(this.props.comments);
+    //  console.log(this.props.comments);
 
-    const recipeId = this.props.recipeId;
-    recId = this.props.recId; // id for individual recipes
+    const recId = this.props.recipeTypes; // from foodComponent
+
     const comments = this.props.comments.comments.filter(
       (comment) => comment.recipeId === recId
     );
@@ -93,7 +71,7 @@ class InputComponent extends Component {
               title="Submit"
               color="#5637DD"
               onPress={() => {
-                this.submitComment(recipeId);
+                this.submitComment(recId);
                 this.resetForm();
               }}
             />
@@ -101,9 +79,15 @@ class InputComponent extends Component {
         </View>
 
         {comments.map((comment) => {
-          // this.props.comments.map(comment) => comment
           return (
-            <View style={{ backgroundColor: "#fff", width: "100%" }}>
+            <View
+              style={{
+                backgroundColor: "#fff",
+                width: "100%",
+
+                marginTop: 10,
+              }}
+            >
               <View style={{ margin: 0 }}>
                 <View key={comment.id} style={styles.CommentView}>
                   <Text style={{ fontSize: 16 }}>{comment.text}</Text>

@@ -33,8 +33,6 @@ const shareRecipe = (title, message, url) => {
   );
 };
 
-// key={food.recipeTitle + food.author + food.prep}
-
 class FoodInfo extends Component {
   constructor(props) {
     super(props);
@@ -46,6 +44,7 @@ class FoodInfo extends Component {
   }
 
   markFavorite(recipeId) {
+    console.log("postFavorite", this);
     this.props.postFavorite(recipeId);
   }
 
@@ -73,207 +72,212 @@ class FoodInfo extends Component {
     title: "Recipes",
   };
   render() {
-    //console.log(this.props.comments);
     async function PrintDocument() {
       const html = `<h1> HTML string to print into PDF file</h1>`;
       const { uri } = await Print.printAsync({ html });
       Sharing.shareAsync(uri);
     }
 
-    const recipeId = this.props.navigation.getParam("recipeId");
-
     const specificRecipe = this.state.search;
 
-    const RenderRecipe = ({ recipe, favorite, markFavorite }) => {
+    const RenderRecipe = ({ recipe, markFavorite }) => {
       if (recipe) {
-        return recipe.map((food) => (
-          <View key={food.recId} style={styles.main}>
-            <Animatable.View
-              animation="fadeInDown"
-              duration={2000}
-              delay={1000}
-            >
-              <View style={styles.header}>
-                <Text style={{ fontSize: 24 }}>{food.recipeTitle}</Text>
+        return recipe.map((food) => {
+          const favorite = this.props.favorites.includes(food.recId);
+          return (
+            <View key={food.recId} style={styles.main}>
+              <Animatable.View
+                animation="fadeInDown"
+                duration={2000}
+                delay={1000}
+              >
+                <View style={styles.header}>
+                  <Text style={{ fontSize: 24 }}>{food.recipeTitle}</Text>
 
-                <Text>Author:{food.author}</Text>
-                <Text
-                  style={{
-                    margin: 10,
-                    alignContent: "center",
-                  }}
-                >
-                  {food.date}
-                </Text>
-              </View>
-              <View style={styles.icons}>
-                <TouchableOpacity style={styles.facebookTouchable}>
-                  <Icon
-                    name={"facebook"}
-                    type="font-awesome"
-                    style={styles.facebookIcon}
-                    onPress={() =>
-                      shareRecipe(
-                        recipe.name,
-                        food.description,
-                        baseUrl + food.image
-                      )
-                    }
-                  />
-                  <Text style={{ padding: 5, margin: 5 }}>Share</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.twitterTouchable}>
-                  <Icon
-                    name={"twitter"}
-                    type="font-awesome"
-                    style={styles.twitterIcon}
-                    onPress={() =>
-                      shareRecipe(
-                        recipe.name,
-                        food.description,
-                        baseUrl + food.image
-                      )
-                    }
-                  />
-                  <Text style={{ padding: 5, margin: 5 }}>Tweet</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.printTouchable}>
-                  <Icon
-                    name={"print"}
-                    type="font-awesome"
-                    style={styles.printIcon}
-                    onPress={() => PrintDocument()}
-                  />
-                  <Text style={{ padding: 5, margin: 5 }}>Print</Text>
-                </TouchableOpacity>
-              </View>
-
-              <Card>
-                <Image
-                  style={styles.image}
-                  source={{
-                    uri: baseUrl + food.image,
-                  }}
-                />
-                <Rating
-                  startingValue={food.rating}
-                  readonly
-                  imageSize={10}
-                  style={{ alignItems: "flex-start", paddingVertical: "5%" }}
-                />
-                <View
-                  style={{ justifyContent: "center", alignItems: "center" }}
-                >
-                  <Icon
-                    name={favorite ? "heart" : "heart-o"}
-                    type="font-awesome"
-                    color="#f50"
-                    raised
-                    reverse
-                    onPress={() =>
-                      favorite
-                        ? console.log("Already set as a favorite")
-                        : markFavorite()
-                    }
-                  />
-                </View>
-
-                <Text style={{ margin: 5 }}>{food.description}</Text>
-              </Card>
-              <View style={styles.recipeDetails}>
-                <View style={styles.prepTime}>
-                  <Text style={{ margin: 10 }}>Prep Time </Text>
-
-                  <Text>{food.prep}</Text>
-                </View>
-                <View
-                  style={{ justifyContent: "center", alignItems: "center" }}
-                >
-                  <Text style={{ margin: 10 }}>Cook Time</Text>
-
-                  <Text>{food.cook}</Text>
-                </View>
-                <View
-                  style={{ justifyContent: "center", alignItems: "center" }}
-                >
-                  <Text style={{ margin: 10 }}>Total Time</Text>
-                  <Text>{food.total}</Text>
-                </View>
-              </View>
-              {food.Ingredients.map((ing) => (
-                <View style={{ margin: 5, padding: 10 }} key={ing.ingId}>
-                  <Text style={styles.ingredients}>INGREDIENTS</Text>
-                  <Text>{`\u2022 ${ing.ingOne}`}</Text>
-                  <Text>{`\u2022 ${ing.ingTwo} `}</Text>
-                  <Text>{`\u2022 ${ing.ingThree} `}</Text>
-                  <Text>{`\u2022 ${ing.ingFour} `}</Text>
-                  <Text>{`\u2022 ${ing.ingFive}`}</Text>
-                </View>
-              ))}
-              {food.Instructions.map((ins) => (
-                <View style={{ margin: 5, padding: 10 }} key={ins.insId}>
-                  <Text style={styles.instructions}>INSTRUCTIONS</Text>
-                  <Text style={{ padding: 5 }}>{`\u2022 ${ins.insOne}  `}</Text>
-                  <Text style={{ padding: 5 }}>{` \u2022 ${ins.insTwo}`}</Text>
+                  <Text>Author:{food.author}</Text>
                   <Text
-                    style={{ padding: 5 }}
-                  >{` \u2022 ${ins.insThree} `}</Text>
-                  <Text
-                    style={{ padding: 5 }}
-                  >{` \u2022 ${ins.insFour} `}</Text>
-                  <Text style={{ padding: 5 }}>{` \u2022 ${ins.insFive}`}</Text>
+                    style={{
+                      margin: 10,
+                      alignContent: "center",
+                    }}
+                  >
+                    {food.date}
+                  </Text>
                 </View>
-              ))}
-              <View style={styles.nutritionView}>
-                <Text style={styles.nutritionText}>NUTRITION</Text>
-                {food.nutrition.map((nut) => (
-                  <View style={styles.nutritionDetails} key={nut.nutId}>
-                    <Text style={{ borderColor: "#000", margin: 2 }}>
-                      Serving: {nut.serving} serving |
-                    </Text>
-                    <Text style={{ borderColor: "#000", margin: 2 }}>
-                      Calories:{nut.calories} kcal|
-                    </Text>
-                    <Text style={{ borderColor: "#000", margin: 2 }}>
-                      Carbohydrates: {nut.carbohydrates} g |
-                    </Text>
-                    <Text style={{ borderColor: "#000", margin: 2 }}>
-                      Protein: {nut.protein} g|
-                    </Text>
-                    <Text style={{ borderColor: "#000", margin: 2 }}>
-                      Fat: {nut.fat} g|
-                    </Text>
-                    <Text style={{ borderColor: "#000", margin: 2 }}>
-                      Saturated Fat: {nut.saturatedfat} g|
-                    </Text>
-                    <Text style={{ borderColor: "#000", margin: 2 }}>
-                      Cholestrol: {nut.cholestrol} mg|
-                    </Text>
-                    <Text style={{ borderColor: "#000", margin: 2 }}>
-                      Sodium: {nut.sodium} mg|
-                    </Text>
-                    <Text style={{ borderColor: "#000", margin: 2 }}>
-                      potassium: {nut.potassium} mg|
-                    </Text>
-                    <Text style={{ borderColor: "#000", margin: 2 }}>
-                      Vitamin A: {nut.vitaminA} IU|
-                    </Text>
+                <View style={styles.icons}>
+                  <TouchableOpacity style={styles.facebookTouchable}>
+                    <Icon
+                      name={"facebook"}
+                      type="font-awesome"
+                      style={styles.facebookIcon}
+                      onPress={() =>
+                        shareRecipe(
+                          recipe.name,
+                          food.description,
+                          baseUrl + food.image
+                        )
+                      }
+                    />
+                    <Text style={{ padding: 5, margin: 5 }}>Share</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity style={styles.twitterTouchable}>
+                    <Icon
+                      name={"twitter"}
+                      type="font-awesome"
+                      style={styles.twitterIcon}
+                      onPress={() =>
+                        shareRecipe(
+                          recipe.name,
+                          food.description,
+                          baseUrl + food.image
+                        )
+                      }
+                    />
+                    <Text style={{ padding: 5, margin: 5 }}>Tweet</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity style={styles.printTouchable}>
+                    <Icon
+                      name={"print"}
+                      type="font-awesome"
+                      style={styles.printIcon}
+                      onPress={() => PrintDocument()}
+                    />
+                    <Text style={{ padding: 5, margin: 5 }}>Print</Text>
+                  </TouchableOpacity>
+                </View>
+
+                <Card>
+                  <Image
+                    style={styles.image}
+                    source={{
+                      uri: baseUrl + food.image,
+                    }}
+                  />
+                  <Rating
+                    startingValue={food.rating}
+                    readonly
+                    imageSize={10}
+                    style={{ alignItems: "flex-start", paddingVertical: "5%" }}
+                  />
+                  <View
+                    style={{ justifyContent: "center", alignItems: "center" }}
+                  >
+                    <Icon
+                      name={favorite ? "heart" : "heart-o"}
+                      type="font-awesome"
+                      color="#f50"
+                      raised
+                      reverse
+                      onPress={() =>
+                        favorite
+                          ? console.log("Already set as a favorite")
+                          : markFavorite(food.recId)
+                      }
+                    />
+                  </View>
+
+                  <Text style={{ margin: 5 }}>{food.description}</Text>
+                </Card>
+                <View style={styles.recipeDetails}>
+                  <View style={styles.prepTime}>
+                    <Text style={{ margin: 10 }}>Prep Time </Text>
+
+                    <Text>{food.prep}</Text>
+                  </View>
+                  <View
+                    style={{ justifyContent: "center", alignItems: "center" }}
+                  >
+                    <Text style={{ margin: 10 }}>Cook Time</Text>
+
+                    <Text>{food.cook}</Text>
+                  </View>
+                  <View
+                    style={{ justifyContent: "center", alignItems: "center" }}
+                  >
+                    <Text style={{ margin: 10 }}>Total Time</Text>
+                    <Text>{food.total}</Text>
+                  </View>
+                </View>
+                {food.Ingredients.map((ing) => (
+                  <View style={{ margin: 5, padding: 10 }} key={ing.ingId}>
+                    <Text style={styles.ingredients}>INGREDIENTS</Text>
+                    <Text>{`\u2022 ${ing.ingOne}`}</Text>
+                    <Text>{`\u2022 ${ing.ingTwo} `}</Text>
+                    <Text>{`\u2022 ${ing.ingThree} `}</Text>
+                    <Text>{`\u2022 ${ing.ingFour} `}</Text>
+                    <Text>{`\u2022 ${ing.ingFive}`}</Text>
                   </View>
                 ))}
-              </View>
+                {food.Instructions.map((ins) => (
+                  <View style={{ margin: 5, padding: 10 }} key={ins.insId}>
+                    <Text style={styles.instructions}>INSTRUCTIONS</Text>
+                    <Text
+                      style={{ padding: 5 }}
+                    >{`\u2022 ${ins.insOne}  `}</Text>
+                    <Text
+                      style={{ padding: 5 }}
+                    >{` \u2022 ${ins.insTwo}`}</Text>
+                    <Text
+                      style={{ padding: 5 }}
+                    >{` \u2022 ${ins.insThree} `}</Text>
+                    <Text
+                      style={{ padding: 5 }}
+                    >{` \u2022 ${ins.insFour} `}</Text>
+                    <Text
+                      style={{ padding: 5 }}
+                    >{` \u2022 ${ins.insFive}`}</Text>
+                  </View>
+                ))}
+                <View style={styles.nutritionView}>
+                  <Text style={styles.nutritionText}>NUTRITION</Text>
+                  {food.nutrition.map((nut) => (
+                    <View style={styles.nutritionDetails} key={nut.nutId}>
+                      <Text style={{ borderColor: "#000", margin: 2 }}>
+                        Serving: {nut.serving} serving |
+                      </Text>
+                      <Text style={{ borderColor: "#000", margin: 2 }}>
+                        Calories:{nut.calories} kcal|
+                      </Text>
+                      <Text style={{ borderColor: "#000", margin: 2 }}>
+                        Carbohydrates: {nut.carbohydrates} g |
+                      </Text>
+                      <Text style={{ borderColor: "#000", margin: 2 }}>
+                        Protein: {nut.protein} g|
+                      </Text>
+                      <Text style={{ borderColor: "#000", margin: 2 }}>
+                        Fat: {nut.fat} g|
+                      </Text>
+                      <Text style={{ borderColor: "#000", margin: 2 }}>
+                        Saturated Fat: {nut.saturatedfat} g|
+                      </Text>
+                      <Text style={{ borderColor: "#000", margin: 2 }}>
+                        Cholestrol: {nut.cholestrol} mg|
+                      </Text>
+                      <Text style={{ borderColor: "#000", margin: 2 }}>
+                        Sodium: {nut.sodium} mg|
+                      </Text>
+                      <Text style={{ borderColor: "#000", margin: 2 }}>
+                        potassium: {nut.potassium} mg|
+                      </Text>
+                      <Text style={{ borderColor: "#000", margin: 2 }}>
+                        Vitamin A: {nut.vitaminA} IU|
+                      </Text>
+                    </View>
+                  ))}
+                </View>
 
-              <InputComponent
-                text={this.state.text}
-                author={this.state.author}
-                onSubmit={this.onSubmit}
-                recipeId={recipeId}
-                recId={food.recId}
-              />
-            </Animatable.View>
-          </View>
-        ));
+                <InputComponent
+                  text={this.state.text}
+                  author={this.state.author}
+                  onSubmit={this.onSubmit}
+                  recipeTypes={food.recId}
+                />
+              </Animatable.View>
+            </View>
+          );
+        });
       }
       return <View />;
     };
@@ -292,8 +296,7 @@ class FoodInfo extends Component {
 
           <RenderRecipe
             recipe={specificRecipe}
-            favorite={this.props.favorites.includes(recipeId)}
-            markFavorite={() => this.markFavorite(recipeId)}
+            markFavorite={(recipeId) => this.markFavorite(recipeId)}
           />
           <View style={{ flex: 1, backgroundColor: "#0C0CC8", height: 40 }}>
             <View
@@ -320,8 +323,9 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  postFavorite: (recipeId) => postFavorite(recipeId),
+  postFavorite,
 };
+
 const styles = StyleSheet.create({
   main: {
     backgroundColor: "#d3d3d3",

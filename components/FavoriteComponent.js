@@ -18,24 +18,30 @@ class Favorite extends Component {
     title: "My Favorites",
   };
   render() {
+    const reduceRecipe = this.props.recipes
+      .map((recipeType) => {
+        return recipeType.recipes;
+      })
+      .flat();
+    console.log(reduceRecipe);
     const renderFavoriteItem = ({ item }) => {
       return (
-        <View key={item.id}>
+        <View key={item.recId}>
           <View>
             <View style={{ justifyContent: "center", alignItems: "center" }}>
-              <Text style={styles.country}>{item.country}</Text>
+              <Text style={styles.country}>{item.recipeTitle}</Text>
             </View>
             <Image
               style={{
                 minWidth: "100%",
                 height: 200,
               }}
-              source={{ uri: baseUrl + item.homeImage }}
+              source={{ uri: baseUrl + item.image }}
             />
             <TouchableOpacity
               onPress={() =>
                 this.props.navigation.navigate("FoodInfo", {
-                  recipeId: item.id,
+                  recipeId: item.recId,
                 })
               }
             />
@@ -47,8 +53,8 @@ class Favorite extends Component {
                 Alert.alert(
                   "Delete Favorite?",
                   "Are you sure you wish to delete your favorite  " +
-                    item.name +
-                    "recipe" +
+                    item.recipeTitle +
+                    " recipe" +
                     "?",
                   [
                     {
@@ -58,7 +64,7 @@ class Favorite extends Component {
                     },
                     {
                       text: "OK",
-                      onPress: () => this.props.deleteFavorite(item.id),
+                      onPress: () => this.props.deleteFavorite(item.recId),
                     },
                   ],
                   { cancelable: false }
@@ -75,11 +81,11 @@ class Favorite extends Component {
     return (
       <Animatable.View animation="fadeInRightBig" duration={2000}>
         <FlatList
-          data={this.props.recipes.filter((recipe) =>
-            this.props.favorites.includes(recipe.id)
+          data={reduceRecipe.filter((recipe) =>
+            this.props.favorites.includes(recipe.recId)
           )}
           renderItem={renderFavoriteItem}
-          keyExtractor={(item) => item.id.toString()}
+          keyExtractor={(item) => item.recId.toString()}
         />
       </Animatable.View>
     );

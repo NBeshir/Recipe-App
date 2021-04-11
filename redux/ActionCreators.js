@@ -95,15 +95,15 @@ export const addComment = (comment) => ({
   payload: comment,
 });
 
-export const postFavorite = (recId) => (dispatch) => {
+export const postFavorite = (recipeId) => (dispatch) => {
   setTimeout(() => {
-    dispatch(addFavorite(recId));
+    dispatch(addFavorite(recipeId));
   }, 2000);
 };
 
-export const addFavorite = (recId) => ({
+export const addFavorite = (recipeId) => ({
   type: ActionTypes.ADD_FAVORITE,
-  payload: recId,
+  payload: recipeId,
 });
 
 export const deleteFavorite = (recipeId) => ({
