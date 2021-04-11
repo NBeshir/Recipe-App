@@ -39,12 +39,11 @@ class FoodInfo extends Component {
     this.state = {
       fontsLoaded: false,
       search: [],
-      visible: true,
     };
   }
 
   markFavorite(recipeId) {
-    console.log("postFavorite", this);
+    //console.log("postFavorite", this);
     this.props.postFavorite(recipeId);
   }
 
