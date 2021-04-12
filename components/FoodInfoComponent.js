@@ -28,7 +28,7 @@ const shareRecipe = (title, message, url) => {
       url: url,
     },
     {
-      dialogTitle: "Share " + "recipe",
+      dialogTitle: "Share " + title + " recipe",
     }
   );
 };
@@ -71,12 +71,6 @@ class FoodInfo extends Component {
     title: "Recipes",
   };
   render() {
-    async function PrintDocument() {
-      const html = `<h1> HTML string to print into PDF file</h1>`;
-      const { uri } = await Print.printAsync({ html });
-      Sharing.shareAsync(uri);
-    }
-
     const specificRecipe = this.state.search;
 
     const RenderRecipe = ({ recipe, markFavorite }) => {
@@ -111,7 +105,7 @@ class FoodInfo extends Component {
                       style={styles.facebookIcon}
                       onPress={() =>
                         shareRecipe(
-                          recipe.name,
+                          food.recipeTitle,
                           food.description,
                           baseUrl + food.image
                         )
@@ -119,7 +113,6 @@ class FoodInfo extends Component {
                     />
                     <Text style={{ padding: 5, margin: 5 }}>Share</Text>
                   </TouchableOpacity>
-
                   <TouchableOpacity style={styles.twitterTouchable}>
                     <Icon
                       name={"twitter"}
@@ -127,7 +120,7 @@ class FoodInfo extends Component {
                       style={styles.twitterIcon}
                       onPress={() =>
                         shareRecipe(
-                          recipe.name,
+                          food.recipeTitle,
                           food.description,
                           baseUrl + food.image
                         )
@@ -135,15 +128,20 @@ class FoodInfo extends Component {
                     />
                     <Text style={{ padding: 5, margin: 5 }}>Tweet</Text>
                   </TouchableOpacity>
-
-                  <TouchableOpacity style={styles.printTouchable}>
+                  <TouchableOpacity style={styles.mailTouchable}>
                     <Icon
-                      name={"print"}
+                      name={"envelope"}
                       type="font-awesome"
-                      style={styles.printIcon}
-                      onPress={() => PrintDocument()}
+                      style={styles.mailIcon}
+                      onPress={() =>
+                        shareRecipe(
+                          food.recipeTitle,
+                          food.description,
+                          baseUrl + food.image
+                        )
+                      }
                     />
-                    <Text style={{ padding: 5, margin: 5 }}>Print</Text>
+                    <Text style={{ padding: 5, margin: 5 }}>Mail</Text>
                   </TouchableOpacity>
                 </View>
 
@@ -374,7 +372,7 @@ const styles = StyleSheet.create({
     width: 5,
     height: 5,
   },
-  printTouchable: {
+  mailTouchable: {
     backgroundColor: "#BF360C",
     padding: 5,
     margin: 5,
@@ -382,7 +380,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  printIcon: {
+  mailIcon: {
     flexDirection: "row",
     alignContent: "center",
     width: 5,
